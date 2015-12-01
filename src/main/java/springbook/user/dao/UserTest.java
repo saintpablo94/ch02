@@ -2,6 +2,7 @@ package springbook.user.dao;
 
 import java.sql.SQLException;
 
+import javax.activation.DataSource;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -14,13 +15,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.GenericXmlApplicationContext;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.datasource.SingleConnectionDataSource;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import springbook.user.domain.User;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations="/countbeans.xml")
+@ContextConfiguration(locations="/test-countbeans.xml")
 public class UserTest {
 	
 	@Autowired
@@ -41,6 +44,13 @@ public class UserTest {
 //		ApplicationContext context = new AnnotationConfigApplicationContext(CountDaoFactory.class);
 		System.out.println(this.context);
 		System.out.println(this);
+		
+		/*SingleConnectionDataSource dataSource = new SingleConnectionDataSource(
+					"jdbc:mysql://localhost/testdb?characterEncoding=UTF-8", 
+					"spring", 
+					"book", true) ;
+		
+		userDao.setConnectionMaker(dataSource);*/
 		
 		this.userOne = new User().setId("test0").setName("테스트1").setPasswordString("married1");
 		this.userTwo = new User().setId("test1").setName("테스트2").setPasswordString("married2");
