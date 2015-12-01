@@ -8,6 +8,8 @@ import java.sql.SQLException;
 
 import javax.sql.DataSource;
 
+import org.springframework.dao.EmptyResultDataAccessException;
+
 import com.mysql.jdbc.Statement;
 
 import springbook.user.domain.User;
@@ -48,8 +50,9 @@ public class UserDao {
 
 		ResultSet rs = stmt.executeQuery();
 
-		User user = new User();
+		User user = null;
 		if (rs.next()) {
+			user = new User();
 			user.setId(rs.getString("id"));
 			user.setName(rs.getString("name"));
 			user.setPasswordString(rs.getString("password"));
@@ -58,6 +61,8 @@ public class UserDao {
 		stmt.close();
 		rs.close();
 		conn.close();
+		
+		if(user == null) throw new EmptyResultDataAccessException(1);
 
 		return user;
 	}
