@@ -22,17 +22,17 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import springbook.user.domain.User;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations="/test-countbeans.xml")
+//@RunWith(SpringJUnit4ClassRunner.class)
+//@ContextConfiguration(locations="/test-countbeans.xml")
 public class UserTest {
 	
-	@Autowired
-	private ApplicationContext context;
+//	@Autowired
+//	private ApplicationContext context;
 	
-	@Autowired
+//	@Autowired
 	private UserDao userDao;
 	
-	@Autowired
+//	@Autowired
 	private CountConnectionMaker countConnectionMaker;
 	
 	private User userOne;
@@ -42,8 +42,17 @@ public class UserTest {
 	@Before
 	public void setUp(){
 //		ApplicationContext context = new AnnotationConfigApplicationContext(CountDaoFactory.class);
-		System.out.println(this.context);
+//		System.out.println(this.context);
 		System.out.println(this);
+	
+		
+		SingleConnectionDataSource dataSource = new SingleConnectionDataSource(
+				"jdbc:mysql://localhost/testdb?characterEncoding=UTF-8", 
+				"spring", 
+				"book", true) ;
+		
+		userDao = new UserDao();
+		userDao.setConnectionMaker(dataSource);
 		
 		/*SingleConnectionDataSource dataSource = new SingleConnectionDataSource(
 					"jdbc:mysql://localhost/testdb?characterEncoding=UTF-8", 
